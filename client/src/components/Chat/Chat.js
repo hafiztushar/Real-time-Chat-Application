@@ -17,12 +17,18 @@ const Chat = ({location}) => {
         //set connectionto server
         socket = io(endpoint);
 
-        socket.emit('join', { name, room });
-
+        socket.emit(
+            'join', { name, room },({  }) => {}
+        );
+        
+        return () => {
+            socket.emit('disconnect');
+            socket.off();
+        }
     }, [endpoint, location.search]);
     
     return (
-        <h1> Chat </h1>
+        <h1> {name}{room} </h1>
     );
 }
 export default Chat;
